@@ -20,7 +20,7 @@ then
 
   echo "==================== installing powerline! ===================="
   pip3 install --user powerline-status
-  POWERLINE_LOCATION=`pip show powerline-status`
+  POWERLINE_LOCATION=`pip3 show powerline-status`
   POWERLINE_ARR=($POWERLINE_LOCATION)
   POWERLINE_LENGTH=`echo $POWERLINE_LOCATION | wc -w`
 
@@ -35,43 +35,26 @@ then
     fi
   done
 
-  echo "export PATH=\$PATH:\$HOME/Library/Python/$FINAL_POWERLINE_VERSION/bin" >> ~/.bash_profile
+  echo "export PATH=$PATH:$HOME/Library/Python/$FINAL_POWERLINE_VERSION/bin" >> ~/.bash_profile
   echo "powerline-daemon -q" >> ~/.bash_profile
   echo "POWERLINE_BASH_CONTINUATION=1" >> ~/.bash_profile
   echo "POWERLINE_BASH_SELECT=1" >> ~/.bash_profile
   echo ". $FINAL_POWERLINE_LOCATION/powerline/bindings/bash/powerline.sh" >> ~/.bash_profile
   source ~/.bash_profile
   pip3 install powerline-gitstatus
-  echo $FINAL_POWERLINE_LOCATION
-  mkdir -p $FINAL_POWERLINE_LOCATION/powerline/colorschemes
-  mkdir -p $FINAL_POWERLINE_LOCATION/powerline/themes/shell
   echo "{
-  \"groups\": {
-    \"gitstatus\":                 { \"fg\": \"gray8\",           \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_branch\":          { \"fg\": \"gray8\",           \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_branch_clean\":    { \"fg\": \"green\",           \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_branch_dirty\":    { \"fg\": \"gray8\",           \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_branch_detached\": { \"fg\": \"mediumpurple\",    \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_tag\":             { \"fg\": \"darkcyan\",        \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_behind\":          { \"fg\": \"gray10\",          \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_ahead\":           { \"fg\": \"gray10\",          \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_staged\":          { \"fg\": \"green\",           \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_unmerged\":        { \"fg\": \"brightred\",       \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_changed\":         { \"fg\": \"mediumorange\",    \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_untracked\":       { \"fg\": \"brightestorange\", \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus_stashed\":         { \"fg\": \"darkblue\",        \"bg\": \"gray2\", \"attrs\": [] },
-    \"gitstatus:divider\":         { \"fg\": \"gray8\",           \"bg\": \"gray2\", \"attrs\": [] }
+    \"ext\": {
+      \"shell\": {
+        \"theme\": \"default_leftonly\"
+      }
     }
-  }" >> $FINAL_POWERLINE_LOCATION/powerline/colorschemes/default.json
-  echo "{
-    \"function\": \"powerline_gitstatus.gitstatus\",
-    \"priority\": 40
-  }" >> $FINAL_POWERLINE_LOCATION/powerline/themes/shell/default.json
+  }" >> ~/.config/powerline/config.json
 
   echo "==================== installing powerline fonts! ===================="
   git clone https://github.com/powerline/fonts.git --depth=1 $HOME/fonts
   $HOME/fonts/install.sh
   rm -rf $HOME/fonts
+  source ~/.bash_profile
 
 elif [ "$OSTYPE" == "linux-gnu" ]
 then
