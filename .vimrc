@@ -24,6 +24,19 @@ map <C-K> <C-W>k
 map <C-H> <C-W>h
 map <C-L> <C-W>l
 
+" =================== tabs ==================== "
+" Press Ctrl-Tab to switch between open tabs (like browser tabs) to
+" the right side. Ctrl-Shift-Tab goes the other way.
+noremap <C-1> :tabn 1<CR>
+noremap <C-2> :tabn 2<CR>
+noremap <D-3> :tabn 3<CR>
+noremap <D-4> :tabn 4<CR>
+noremap <D-5> :tabn 5<CR>
+noremap <D-6> :tabn 6<CR>
+noremap <D-7> :tabn 7<CR>
+noremap <D-8> :tabn 8<CR>
+noremap <D-9> :tabn 9<CR>
+
 " =================== plugins ==================== "
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -33,6 +46,8 @@ Plugin 'VundleVim/Vundle.vim'
 " other plugins start
 Plugin 'tpope/vim-fugitive'
 Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
 " other plugins end
 
 " colorschemes
@@ -66,21 +81,12 @@ let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-
-" =================== powerline status ==================== "
-set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
-" Always show statusline
-set laststatus=2
-" Use 256 colours (Use this setting only if your terminal supports 256 colours)
-set t_Co=256
+" =================== other things ==================== "
+let mapleader = ","
 
 " =================== netrw setup ==================== "
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-augroup ProjectDrawer
-  autocmd!
-  autocmd VimEnter * :Vexplore
-augroup END
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif" let g:netrw_banner = 0
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeShowHidden=1
+nmap <leader>d :NERDTreeToggle<cr>
